@@ -1,50 +1,78 @@
-export type ScoringMode = 'classic' | 'rascal' | 'enhanced'
-export type BidStyle = 'prudent' | 'risky'
+export type ScoringMode = 'classic' | 'rascal' | 'enhanced';
+export type BidStyle = 'prudent' | 'risky';
 
 export interface ScoreInput {
-  mode: ScoringMode
-  round: number
-  cards: number
-  bid: number
-  tricks: number
-  bonus: number
-  bidStyle?: BidStyle
+  mode: ScoringMode;
+  round: number;
+  cards: number;
+  bid: number;
+  tricks: number;
+  bonus: number;
+  bidStyle?: BidStyle;
 }
 
-function negativePenalty(bonus: number) {
-  return Math.min(0, bonus)
+abstract class ScoringStrategy {
+  abstract score(input: ScoreInput): number;
+
+  /** Bonuses only count when the bid is met, penalties always apply. */
+  protected penalty(bonus: number) {
+    return Math.min(0, bonus);
+  }
+
+  protected difference(input: ScoreInput) {
+    return Math.abs(input.bid - input.tricks);
+  }
 }
 
-function adjustedRascalBonus(bonus: number) {
-  if (bonus <= 0) return bonus
-  return Math.ceil(bonus / 2 / 5) * 5
-}
+class ClassicScoring extends ScoringStrategy {
+  score(input: ScoreInput) {
+    const difference = this.difference(input);
 
-export function calculateRoundScore(input: ScoreInput) {
-  const difference = Math.abs(input.bid - input.tricks)
-
-  if (input.mode === 'classic') {
     if (input.bid === 0) {
-      const base = input.bid === input.tricks ? 10 * input.round : -10 * input.round
-      return base + (difference === 0 ? input.bonus : negativePenalty(input.bonus))
+      const base = (difference === 0 ? 10 : -10) * input.round;
+      return base + (difference === 0 ? input.bonus : this.penalty(input.bonus));
     }
 
-    if (difference === 0) return 20 * input.bid + input.bonus
-    return -10 * difference + negativePenalty(input.bonus)
+    if (difference === 0) return 20 * input.bid + input.bonus;
+    return -10 * difference + this.penalty(input.bonus);
+  }
+}
+
+class RascalScoring extends ScoringStrategy {
+  score(input: ScoreInput) {
+    const difference = this.difference(input);
+
+    if (difference === 0) return 10 * input.cards + input.bonus;
+    if (difference === 1) return 5 * input.cards + this.halvedBonus(input.bonus);
+    return this.penalty(input.bonus);
   }
 
-  if (input.mode === 'enhanced' && input.bidStyle === 'risky') {
-    if (difference === 0) return 15 * input.cards + input.bonus
-    return negativePenalty(input.bonus)
+  /** Near misses keep half the bonus, rounded up to the next multiple of 5. */
+  private halvedBonus(bonus: number) {
+    if (bonus <= 0) return bonus;
+    return Math.ceil(bonus / 2 / 5) * 5;
   }
+}
 
-  if (difference === 0) return 10 * input.cards + input.bonus
-  if (difference === 1) {
-    return 5 * input.cards + adjustedRascalBonus(input.bonus)
+class EnhancedScoring extends RascalScoring {
+  override score(input: ScoreInput) {
+    if (input.bidStyle !== 'risky') return super.score(input);
+
+    if (this.difference(input) === 0) return 15 * input.cards + input.bonus;
+    return this.penalty(input.bonus);
   }
-  return negativePenalty(input.bonus)
+}
+
+const strategies: Record<ScoringMode, ScoringStrategy> = {
+  classic: new ClassicScoring(),
+  rascal: new RascalScoring(),
+  enhanced: new EnhancedScoring(),
+};
+
+export function calculateRoundScore(input: ScoreInput) {
+  return strategies[input.mode].score(input);
 }
 
 export function formatScore(score: number) {
-  return score > 0 ? `+${score}` : String(score)
+  return score > 0 ? `+${score}` : String(score);
 }

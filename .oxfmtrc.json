@@ -1,7 +1,9 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "printWidth": 120,
-  "semi": false,
+  "semi": true,
   "singleQuote": true,
-  "endOfLine": "lf"
+  "endOfLine": "lf",
+  "sortImports": true,
+  "jsxSingleQuote": true
 }
