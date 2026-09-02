@@ -48,7 +48,9 @@ export function RoundScreen() {
       <EditBidDialog
         bid={editedEntry?.bid}
         maxBid={draft.cards}
+        bidStyle={game.mode === 'enhanced' ? editedEntry?.bidStyle : undefined}
         onChange={(bid) => editedPlayerId && draft.updateEntry(editedPlayerId, { bid })}
+        onBidStyleChange={(bidStyle) => editedPlayerId && draft.updateEntry(editedPlayerId, { bidStyle })}
         onClose={() => setEditedPlayerId(null)}
       />
       <StickyActionButton onClick={draft.save}>
