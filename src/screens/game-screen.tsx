@@ -15,7 +15,7 @@ export function GameScreen() {
   return (
     <Page>
       <Header title={game.name} backTo='/' game={game} />
-      <section className='flex justify-between items-end px-0.5 pt-7 pb-4.5'>
+      <section className='flex justify-between items-center px-0.5 pt-7 pb-4.5'>
         <div>
           <Eyebrow>{modeNames[game.mode]}</Eyebrow>
           <h2 className='mt-1 mb-2 font-serif text-2xl leading-[1.1]'>

@@ -19,7 +19,6 @@ export function HomeScreen() {
       <section className='px-2 pt-9.5 pb-6.5'>
         <Eyebrow>Carnet de bord</Eyebrow>
         <h2 className='mt-1 mb-2 font-serif text-[32px] leading-[1.1]'>Vos parties</h2>
-        <p className='max-w-85 text-ink-muted text-sm'>Les scores restent sur cet appareil, même hors connexion.</p>
       </section>
       <section className='gap-2.5 grid page:grid-cols-2'>
         {games.length === 0 && <EmptyState />}

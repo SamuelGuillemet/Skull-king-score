@@ -21,10 +21,10 @@ export function BidsScreen() {
       <RoundBanner>
         <RoundBannerRow label='Total annoncé' value={`${drafts.totalBids} plis`} />
       </RoundBanner>
-      <section className='flex justify-between items-center max-[520px]:items-start gap-3.5 bg-[#e8e4da] mb-3.5 px-3.5 py-3 border border-[#c7c4bb] rounded-[7px]'>
+      <section className='flex justify-between items-start gap-3.5 bg-[#e8e4da] mb-3.5 px-3.5 py-3 border border-[#c7c4bb] rounded-[7px]'>
         <div>
           <span className='block font-extrabold text-[13px]'>Cartes distribuées</span>
-          <small className='max-[520px]:hidden text-[10px] text-ink-muted'>Ajuste la valeur de la manche</small>
+          <small className='text-[10px] text-ink-muted'>Ajuste la valeur de la manche</small>
         </div>
         <Stepper
           className='w-41'
