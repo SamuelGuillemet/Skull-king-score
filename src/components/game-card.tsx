@@ -17,7 +17,8 @@ export function GameCard({ game, onDelete }: { game: Game; onDelete: () => void 
           <span className='font-extrabold text-[10px] text-sea uppercase'>{modeNames[game.mode]}</span>
           <h3 className='mt-0.75 mb-1.5 font-serif text-xl'>{game.name}</h3>
           <p className='flex items-center gap-1.25 text-ink-muted text-xs'>
-            <Users size={15} /> {game.players.length} joueurs · Manche {round}/{game.totalRounds}
+            <Users size={15} /> {game.players.length} joueurs ·{' '}
+            {game.rounds.length === game.totalRounds ? 'Partie terminée' : `Manche ${round}/${game.totalRounds}`}
           </p>
         </div>
         <ChevronRight />
