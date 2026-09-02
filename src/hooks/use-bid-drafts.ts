@@ -22,7 +22,7 @@ export function useBidDrafts(game: Game | undefined) {
     bids,
     bidsByPlayer: new Map(bids.map((bid) => [bid.playerId, bid])),
     totalBids: bids.reduce((total, bid) => total + bid.bid, 0),
-    changeBid: (playerId: string, bid: number) => patchBid(playerId, { bid: Math.max(0, bid) }),
+    changeBid: (playerId: string, bid: number) => patchBid(playerId, { bid: Math.max(0, Math.min(bid, cards)) }),
     changeBidStyle: (playerId: string, bidStyle: BidStyle) => patchBid(playerId, { bidStyle }),
   };
 }
