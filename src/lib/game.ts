@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 
+import type { SegmentedOption } from '../components/ui/segmented';
 import type { BidStyle, ScoringMode } from '../domain/scoring';
 import { useGameStore, type Game } from '../store/game-store';
 
@@ -10,9 +11,14 @@ export const modeNames: Record<ScoringMode, string> = {
 };
 
 export const bidStyleNames: Record<BidStyle, string> = {
-  prudent: 'prudent',
-  risky: 'risqué',
+  prudent: 'Prudent',
+  risky: 'Risqué',
 };
+
+export const bidStyleOptions: SegmentedOption<BidStyle>[] = [
+  { value: 'prudent', label: 'Prudent' },
+  { value: 'risky', label: 'Risqué', danger: true },
+];
 
 export interface BidDraft {
   playerId: string;
