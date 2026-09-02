@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import { ScrollToTop } from './components/scroll-to-top';
 import { BidsScreen } from './screens/bids-screen';
 import { GameScreen } from './screens/game-screen';
 import { HomeScreen } from './screens/home-screen';
@@ -9,6 +10,7 @@ import { RoundScreen } from './screens/round-screen';
 export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <ScrollToTop />
       <Routes>
         <Route path='/' element={<HomeScreen />} />
         <Route path='/new' element={<NewGameScreen />} />
