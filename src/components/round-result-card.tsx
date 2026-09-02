@@ -5,9 +5,6 @@ import type { Player, RoundEntry } from '../store/game-store';
 import { cardClass, cardTitleClass } from './ui/card';
 import { Stepper } from './ui/stepper';
 
-const controlLabelClass =
-  'grid gap-[9px] bg-card p-[13px] text-center text-[10px] font-extrabold text-ink-muted uppercase';
-
 export function RoundResultCard({
   player,
   entry,
@@ -28,7 +25,7 @@ export function RoundResultCard({
   const longPress = useLongPress(onEditBid);
   return (
     <article className={cn(cardClass, 'overflow-hidden')}>
-      <div className={cn(cardTitleClass, 'border-b border-line-soft p-3.75')}>
+      <div className={cn(cardTitleClass, 'border-b border-line-soft p-3 py-1.5')}>
         <button
           className='flex flex-1 items-center gap-3 bg-transparent p-0 border-0 min-w-0 text-inherit text-left touch-none'
           type='button'
@@ -51,7 +48,7 @@ export function RoundResultCard({
         </strong>
       </div>
       <div className='gap-px grid grid-cols-2 bg-line-soft'>
-        <div className={controlLabelClass}>
+        <div className='gap-1 grid bg-card px-3.5 py-1.5 font-extrabold text-[10px] text-ink-muted text-center uppercase'>
           Plis réalisés
           <Stepper
             value={entry.tricks}
@@ -61,7 +58,7 @@ export function RoundResultCard({
             label={`les plis réalisés par ${player.name}`}
           />
         </div>
-        <div className={controlLabelClass}>
+        <div className='gap-1 grid bg-card px-3.5 py-1.5 font-extrabold text-[10px] text-ink-muted text-center uppercase'>
           Bonus / pénalités
           <Stepper
             value={entry.bonus}
