@@ -82,7 +82,9 @@ function ScoreRow({
       <th className={cn(cell, stickyCell, 'bg-sand text-xs text-ink-muted', rowBackground)}>
         <span className='inline-flex items-center gap-1.75'>
           {roundNumber}
-          {playedRound && <Pencil className='size-3 text-coral' aria-label={`Modifier la manche ${roundNumber}`} />}
+          {playedRound && (
+            <Pencil className='left-3 absolute size-3' aria-label={`Modifier la manche ${roundNumber}`} />
+          )}
         </span>
       </th>
       {game.players.map((player) => (
