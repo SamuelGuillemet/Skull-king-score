@@ -11,7 +11,7 @@ const variants = {
 
 /** Round 42px icon slot, shared by plain buttons and by links or dialog triggers. */
 export const iconButtonClass =
-  'inline-grid size-[42px] place-items-center rounded-full bg-transparent text-inherit hover:bg-white/10 [&_svg]:w-[21px]';
+  'inline-grid size-[42px] place-items-center rounded-full bg-transparent text-inherit [&_svg]:w-[21px]';
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: keyof typeof variants;
