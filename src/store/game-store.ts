@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
 
 import type { BidStyle, ScoringMode } from '../domain/scoring';
+import { generateUUID } from '../lib/crypto';
 
 export interface Player {
   id: string;
@@ -57,7 +58,7 @@ export const useGameStore = create<GameState>()(
       hydrated: false,
       setHydrated: (hydrated) => setState({ hydrated }),
       createGame: (game) => {
-        const id = crypto.randomUUID();
+        const id = generateUUID();
         const now = Date.now();
         setState((state) => ({
           games: [
