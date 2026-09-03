@@ -1,19 +1,24 @@
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { BidCard } from '../components/bid-card';
 import { Header } from '../components/header';
+import { MissingGame } from '../components/loading-screen';
 import { RoundBanner, RoundBannerRow } from '../components/round-banner';
 import { StickyActionButton } from '../components/ui/button';
 import { Page } from '../components/ui/page';
 import { Stepper } from '../components/ui/stepper';
 import { useBidDrafts } from '../hooks/use-bid-drafts';
 import { useCurrentGame } from '../lib/game';
+import type { Game } from '../store/game-store';
 
 export function BidsScreen() {
   const game = useCurrentGame();
+  return game ? <Bids game={game} /> : <MissingGame />;
+}
+
+function Bids({ game }: { game: Game }) {
   const navigate = useNavigate();
   const drafts = useBidDrafts(game);
-  if (!game) return <Navigate to='/' replace />;
 
   return (
     <Page>

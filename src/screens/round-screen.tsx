@@ -1,20 +1,24 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
 
 import { EditBidDialog } from '../components/edit-bid-dialog';
 import { Header } from '../components/header';
+import { MissingGame } from '../components/loading-screen';
 import { RoundBanner, RoundBannerRow } from '../components/round-banner';
 import { RoundResultCard } from '../components/round-result-card';
 import { StickyActionButton } from '../components/ui/button';
 import { Page } from '../components/ui/page';
 import { useRoundDraft } from '../hooks/use-round-draft';
 import { bidStyleNames, useCurrentGame } from '../lib/game';
+import type { Game } from '../store/game-store';
 
 export function RoundScreen() {
   const game = useCurrentGame();
+  return game ? <Round game={game} /> : <MissingGame />;
+}
+
+function Round({ game }: { game: Game }) {
   const draft = useRoundDraft(game);
   const [editedPlayerId, setEditedPlayerId] = useState<string | null>(null);
-  if (!game) return <Navigate to='/' replace />;
 
   const editedEntry = editedPlayerId ? draft.entriesByPlayer.get(editedPlayerId) : undefined;
   return (

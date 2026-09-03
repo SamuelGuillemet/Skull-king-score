@@ -1,4 +1,7 @@
 import { Skull } from 'lucide-react';
+import { Navigate } from 'react-router-dom';
+
+import { useGameStore } from '../store/game-store';
 
 export function LoadingScreen({ message }: { message: string }) {
   return (
@@ -7,4 +10,10 @@ export function LoadingScreen({ message }: { message: string }) {
       <p>{message}</p>
     </main>
   );
+}
+
+/** A game route with no matching game: it may just be the store still loading, so only redirect once hydrated. */
+export function MissingGame() {
+  const hydrated = useGameStore((state) => state.hydrated);
+  return hydrated ? <Navigate to='/' replace /> : <LoadingScreen message='Chargement de la partie...' />;
 }

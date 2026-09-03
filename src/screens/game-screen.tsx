@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react';
-import { Navigate } from 'react-router-dom';
 
 import { Header } from '../components/header';
+import { MissingGame } from '../components/loading-screen';
 import { ScoreSheet } from '../components/score-sheet';
 import { Eyebrow, FabLink, Page, bleedX } from '../components/ui/page';
 import { cn } from '../lib/cn';
@@ -9,7 +9,7 @@ import { isGameComplete, modeNames, nextRoundNumber, useCurrentGame } from '../l
 
 export function GameScreen() {
   const game = useCurrentGame();
-  if (!game) return <Navigate to='/' replace />;
+  if (!game) return <MissingGame />;
 
   const complete = isGameComplete(game);
   return (
