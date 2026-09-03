@@ -27,7 +27,7 @@ export function RoundResultCard({
     <article className={cn(cardClass, 'overflow-hidden')}>
       <div className={cn(cardTitleClass, 'border-b border-line-soft p-3 py-1.5')}>
         <button
-          className='flex flex-1 items-center gap-3 bg-transparent p-0 border-0 min-w-0 text-inherit text-left touch-none'
+          className='flex flex-1 items-center gap-3 bg-transparent p-0 border-0 min-w-0 text-inherit text-left'
           type='button'
           aria-label={`Pari ${entry.bid}, modifier le pari de ${player.name}`}
           {...longPress}

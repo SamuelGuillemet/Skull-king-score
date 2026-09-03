@@ -1,4 +1,4 @@
-import { useEffect, useRef, type MouseEvent, type PointerEvent } from 'react';
+import { useEffect, useRef, type MouseEvent } from 'react';
 
 /** Handlers to spread on an element that should react to a long press or a right click. */
 export function useLongPress(onLongPress: () => void, delay = 550) {
@@ -10,12 +10,14 @@ export function useLongPress(onLongPress: () => void, delay = 550) {
   useEffect(() => cancel, []);
 
   return {
-    onPointerDown: (event: PointerEvent<HTMLElement>) => {
-      event.currentTarget.setPointerCapture(event.pointerId);
+    onPointerDown: () => {
       timer.current = setTimeout(onLongPress, delay);
     },
     onPointerUp: cancel,
     onPointerCancel: cancel,
+    onPointerLeave: cancel,
+    // A scroll gesture keeps the pointer down: cancel as soon as it moves.
+    onPointerMove: cancel,
     onContextMenu: (event: MouseEvent<HTMLElement>) => {
       event.preventDefault();
       onLongPress();
