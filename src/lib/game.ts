@@ -35,6 +35,10 @@ export function nextRoundNumber(game: Game) {
   return game.rounds.length + 1;
 }
 
+export function bidsDraftKey(gameId: string, round: number) {
+  return `skull-king-bids:${gameId}:${round}`;
+}
+
 export function isGameComplete(game: Game) {
   return nextRoundNumber(game) > game.totalRounds;
 }

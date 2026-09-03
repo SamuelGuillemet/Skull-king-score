@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { BidStyle } from '../domain/scoring';
-import { nextRoundNumber, type BidDraft } from '../lib/game';
+import { bidsDraftKey, nextRoundNumber, type BidDraft } from '../lib/game';
 import type { Game } from '../store/game-store';
 
 /** Holds the bids being entered for the upcoming round, before they are scored. */
-export function useBidDrafts(game: Game | undefined) {
-  const round = game ? nextRoundNumber(game) : 1;
-  const [cards, setCards] = useState(round);
+export function useBidDrafts(game: Game) {
+  const round = nextRoundNumber(game);
+  const key = bidsDraftKey(game.id, round);
+  // Kept across navigation so coming back from the results screen does not wipe the bids.
+  const restore = (): { bids: BidDraft[]; cards: number } | null =>
+    JSON.parse(sessionStorage.getItem(key) ?? 'null');
+  const [cards, setCards] = useState(() => restore()?.cards ?? round);
   const [bids, setBids] = useState<BidDraft[]>(
-    () => game?.players.map((player) => ({ playerId: player.id, bid: 0, bidStyle: 'prudent' })) ?? [],
+    () => restore()?.bids ?? game.players.map((player) => ({ playerId: player.id, bid: 0, bidStyle: 'prudent' })),
   );
+
+  useEffect(() => {
+    sessionStorage.setItem(key, JSON.stringify({ bids, cards }));
+  }, [key, bids, cards]);
 
   const patchBid = (playerId: string, patch: Partial<BidDraft>) =>
     setBids((current) => current.map((bid) => (bid.playerId === playerId ? { ...bid, ...patch } : bid)));
