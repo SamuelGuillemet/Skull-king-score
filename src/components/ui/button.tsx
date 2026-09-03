@@ -33,12 +33,19 @@ export function Button({ className, variant = 'primary', ...props }: ButtonProps
 /** Call to action pinned above the safe area at the bottom of a screen. */
 export function StickyActionButton({ className, ...props }: ButtonProps) {
   return (
-    <Button
-      className={cn(
-        'bottom-[calc(16px+env(safe-area-inset-bottom))] z-30 fixed inset-x-[max(16px,calc((100vw-728px)/2))] h-13.5',
-        className,
-      )}
-      {...props}
-    />
+    <div className='bottom-0 z-30 fixed inset-x-0 px-[max(16px,calc((100vw-728px)/2))] pt-5 pb-[calc(16px+env(safe-area-inset-bottom))] pointer-events-none'>
+      {/* Blurred band so the button stays readable over the scrolling content. */}
+      <div
+        className='absolute inset-0 backdrop-blur-[6px] [mask-image:linear-gradient(to_top,black_60%,transparent)]'
+        aria-hidden='true'
+      />
+      <Button
+        className={cn(
+          'relative w-full h-13.5 pointer-events-auto shadow-[0_5px_0_var(--color-coral-dark),0_12px_28px_rgb(23_33_38/28%)]',
+          className,
+        )}
+        {...props}
+      />
+    </div>
   );
 }
