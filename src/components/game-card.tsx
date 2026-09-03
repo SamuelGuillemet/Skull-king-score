@@ -1,4 +1,4 @@
-import { ChevronRight, Trash2, Users } from 'lucide-react';
+import { ChevronRight, Copy, Trash2, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { modeNames, nextRoundNumber } from '../lib/game';
@@ -23,14 +23,23 @@ export function GameCard({ game, onDelete }: { game: Game; onDelete: () => void 
         </div>
         <ChevronRight />
       </Link>
-      <Button
-        variant='ghost'
-        className='px-0 border-line-soft border-l rounded-none w-12 text-[#9b5146]'
-        aria-label={`Supprimer ${game.name}`}
-        onClick={onDelete}
-      >
-        <Trash2 size={18} />
-      </Button>
+      <div className='grid border-line-soft border-l w-12'>
+        <Link
+          className='place-items-center grid text-sea no-underline'
+          to={`/new?from=${game.id}`}
+          aria-label={`Dupliquer les paramètres de ${game.name}`}
+        >
+          <Copy size={18} />
+        </Link>
+        <Button
+          variant='ghost'
+          className='px-0 border-0 border-line-soft border-t rounded-none w-12 text-[#9b5146]'
+          aria-label={`Supprimer ${game.name}`}
+          onClick={onDelete}
+        >
+          <Trash2 size={18} />
+        </Button>
+      </div>
     </article>
   );
 }

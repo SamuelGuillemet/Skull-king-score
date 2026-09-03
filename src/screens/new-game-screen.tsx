@@ -1,4 +1,5 @@
 import { Header } from '../components/header';
+import { LoadingScreen } from '../components/loading-screen';
 import { PlayerNameFields } from '../components/player-name-fields';
 import { StickyActionButton } from '../components/ui/button';
 import { Fieldset, fieldLabelClass } from '../components/ui/field';
@@ -8,6 +9,7 @@ import { Stepper } from '../components/ui/stepper';
 import type { ScoringMode } from '../domain/scoring';
 import { MAX_ROUNDS, MIN_ROUNDS, useNewGameForm } from '../hooks/use-new-game-form';
 import { modeNames } from '../lib/game';
+import { useGameStore } from '../store/game-store';
 
 const modeOptions = (Object.keys(modeNames) as ScoringMode[]).map((mode) => ({
   value: mode,
@@ -15,6 +17,12 @@ const modeOptions = (Object.keys(modeNames) as ScoringMode[]).map((mode) => ({
 }));
 
 export function NewGameScreen() {
+  const hydrated = useGameStore((state) => state.hydrated);
+  if (!hydrated) return <LoadingScreen message='Chargement des parties...' />;
+  return <NewGameForm />;
+}
+
+function NewGameForm() {
   const form = useNewGameForm();
 
   return (
