@@ -9,8 +9,7 @@ export function useBidDrafts(game: Game) {
   const round = nextRoundNumber(game);
   const key = bidsDraftKey(game.id, round);
   // Kept across navigation so coming back from the results screen does not wipe the bids.
-  const restore = (): { bids: BidDraft[]; cards: number } | null =>
-    JSON.parse(sessionStorage.getItem(key) ?? 'null');
+  const restore = (): { bids: BidDraft[]; cards: number } | null => JSON.parse(sessionStorage.getItem(key) ?? 'null');
   const [cards, setCards] = useState(() => restore()?.cards ?? round);
   const [bids, setBids] = useState<BidDraft[]>(
     () => restore()?.bids ?? game.players.map((player) => ({ playerId: player.id, bid: 0, bidStyle: 'prudent' })),
