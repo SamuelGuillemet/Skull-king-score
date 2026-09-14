@@ -30,11 +30,11 @@ class ClassicScoring extends ScoringStrategy {
 
     if (input.bid === 0) {
       const base = (difference === 0 ? 10 : -10) * input.round;
-      return base + (difference === 0 ? input.bonus : this.penalty(input.bonus));
+      return base + input.bonus;
     }
 
     if (difference === 0) return 20 * input.bid + input.bonus;
-    return -10 * difference + this.penalty(input.bonus);
+    return -10 * difference + input.bonus;
   }
 }
 
