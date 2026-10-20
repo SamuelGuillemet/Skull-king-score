@@ -3,7 +3,6 @@ export type BidStyle = 'prudent' | 'risky';
 
 export interface ScoreInput {
   mode: ScoringMode;
-  round: number;
   cards: number;
   bid: number;
   tricks: number;
@@ -29,7 +28,7 @@ class ClassicScoring extends ScoringStrategy {
     const difference = this.difference(input);
 
     if (input.bid === 0) {
-      const base = (difference === 0 ? 10 : -10) * input.round;
+      const base = (difference === 0 ? 10 : -10) * input.cards;
       return base + input.bonus;
     }
 
