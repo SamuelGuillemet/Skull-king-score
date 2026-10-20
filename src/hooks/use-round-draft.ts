@@ -38,7 +38,6 @@ export function useRoundDraft(game: Game) {
   const scoreFor = (entry: RoundEntry) =>
     calculateRoundScore({
       mode: game.mode,
-      round,
       cards,
       bid: entry.bid,
       tricks: entry.tricks,
